@@ -29,7 +29,8 @@ const getState = ( boardSize, playerSize ) => {
     enemyNum: 0,
     time: 0,
     scorePerSec: 10,
-    score: 0
+    score: 0,
+    highScore: 0
   }
 }
 
@@ -60,12 +61,15 @@ class Game extends Component {
       })
 
     return (
-      <div className="container text-center mt-5">
-        <h1>Dodge Game</h1>
-        <h2>
-          <span className="mr-5">Time: {this.state.time}</span>
-          <span className="ml-5">Score: {this.state.score}</span>
-        </h2>
+      <div className="container text-center mt-3">
+        <h1>
+          Dodge Game
+        </h1>
+        <h3>
+          <span className="m-5">Time: {this.state.time}</span>
+          <span className="m-5">Score: {this.state.score}</span>
+        </h3>
+        <span className="m-3">Highest Score: {this.state.highScore}</span>
         <Board boardSize={dimension}>
           <Player
             color="#dc3545"
@@ -91,7 +95,8 @@ class Game extends Component {
     clearInterval(this.gameInterval);
 
     this.setState({
-      ...getState(this.props.boardSize, this.props.playerSize)
+      ...getState(this.props.boardSize, this.props.playerSize),
+      highScore: this.state.highScore < this.state.score ? this.state.score : this.state.highScore
     })
     this.startGame()
   }
@@ -105,7 +110,7 @@ class Game extends Component {
     var enemySpeed = this.state.enemySpeed
     var enemyNum = this.state.enemyNum
 
-    if(time % 4 === 0)
+    if(time % 5 === 0)
       enemySpeed += enemySpeed * 0.1
     if(time % 10 === 0)
       enemyNum += 1
