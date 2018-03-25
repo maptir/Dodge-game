@@ -8,7 +8,7 @@ const Box = styled.div`
   width: ${props => props.size}px
   top: ${props => props.pos.top}px
   left: ${props => props.pos.left}px
-  transition: all 0.1s ease
+  // transition: all 0.1s ease
 `;
 
 class Square extends React.Component {

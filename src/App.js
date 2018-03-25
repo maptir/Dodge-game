@@ -7,7 +7,7 @@ import Game from './components/Game'
 class App extends Component {
   render() {
     return (
-        <Game boardSize="11" playerSize="50"/>
+        <Game boardSize="22" playerSize="25"/>
     );
   }
 }

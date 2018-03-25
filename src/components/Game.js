@@ -26,6 +26,7 @@ const getState = ( boardSize, playerSize ) => {
       dimension: boardSize * playerSize
     },
     enemySpeed: 10,
+    enemyNum: 0,
     time: 0,
     scorePerSec: 10,
     score: 0
@@ -80,8 +81,8 @@ class Game extends Component {
 
   startGame = () => {
     this.timeInterval = setInterval(this.timer, 1000)
-    this.enemyInterval = setInterval(this.enemyMove, 100)
-    this.gameInterval = setInterval(this.generateEnemy, 3000)
+    this.enemyInterval = setInterval(this.enemyMove, 50)
+    this.gameInterval = setInterval(this.addEnemyToGame, 250)
   }
 
   restartGame = () => {
@@ -100,9 +101,20 @@ class Game extends Component {
   }
 
   timer = () => {
+    const time = this.state.time
+    var enemySpeed = this.state.enemySpeed
+    var enemyNum = this.state.enemyNum
+
+    if(time % 4 === 0)
+      enemySpeed += enemySpeed * 0.1
+    if(time % 10 === 0)
+      enemyNum += 1
+
     this.setState({
-      time: this.state.time + 1,
-      score: this.state.score + this.state.scorePerSec
+      time: time + 1,
+      score: this.state.score + this.state.scorePerSec,
+      enemySpeed: enemySpeed,
+      enemyNum: enemyNum
     })
   }
 
@@ -135,6 +147,11 @@ class Game extends Component {
     });
   }
 
+  addEnemyToGame = () => {
+    if(this.state.enemies.length < this.state.enemyNum)
+      this.generateEnemy()
+  }
+
   generateEnemy = () => {
     const player = this.state.player
     const { dimension, playerSize } = this.state.size
@@ -160,7 +177,7 @@ class Game extends Component {
     }
     this.state.enemies.push(enemyPos)
     this.setState({
-      enemies: [...this.state.enemies],
+      enemies: [...this.state.enemies]
     })
   }
 
